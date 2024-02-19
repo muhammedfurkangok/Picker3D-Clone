@@ -2,28 +2,29 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Runtime.Controllers.UI;
-
-public class UISignals: MonoBehaviour
+namespace Runtime.Controllers.UI
 {
-    #region Singleton
-
-    public static UISignals Instance;
-
-    private void Awake()
+    public class UISignals: MonoBehaviour
     {
-        if (Instance != null && Instance != this)
+        #region Singleton
+
+        public static UISignals Instance;
+
+        private void Awake()
         {
-            Destroy(gameObject);
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+            }
+
+            Instance = this;
         }
 
-        Instance = this;
-    }
+        #endregion
 
-    #endregion
-
-    public UnityAction<byte> onSetStageColor = delegate { };
-    public UnityAction<byte> onSetNewLevelValue = delegate { };
-    public UnityAction onPlay = delegate { };
+        public UnityAction<byte> onSetStageColor = delegate { };
+        public UnityAction<byte> onSetNewLevelValue = delegate { };
+        public UnityAction onPlay = delegate { };
     
+    }
 }
