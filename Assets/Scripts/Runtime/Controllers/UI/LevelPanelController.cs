@@ -31,7 +31,7 @@ namespace Runtime.Controllers.UI
 
         private void SubscribeEvents()
         {
-            UISignals.Instance.onSetNewLevelValue += OnSetNewLevelValue;
+            UISignals.Instance.onSetLevelValue += OnSetNewLevelValue;
             UISignals.Instance.onSetStageColor += OnSetStageColor;
 
         }
@@ -47,13 +47,11 @@ namespace Runtime.Controllers.UI
             levelTexts[0].text = additionalValue.ToString();
             additionalValue++;
             levelTexts[1].text = additionalValue.ToString();
-
-
         }
 
         private void UnSubscribeEvents()
         {
-            UISignals.Instance.onSetNewLevelValue -= OnSetNewLevelValue;
+            UISignals.Instance.onSetLevelValue -= OnSetNewLevelValue;
             UISignals.Instance.onSetStageColor -= OnSetStageColor;
         }
 

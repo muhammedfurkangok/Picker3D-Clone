@@ -1,6 +1,5 @@
-using System;
+﻿using Runtime.Data.ValueObjects;
 using Runtime.Keys;
-using Runtime.Managers;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
@@ -11,18 +10,16 @@ namespace Runtime.Controllers.Player
     {
         #region Self Variables
 
-        #region Serialized Veriables
+        #region Serialized Variables
 
-        [SerializeField] private new Rigidbody rigidboy;
-                
-        
+        [SerializeField] private new Rigidbody rigidbody;
 
         #endregion
 
         #region Private Variables
 
         [ShowInInspector] private PlayerMovementData _data;
-        [ShowInInspector] private bool _isReadyToMove,_isReadyToPlay;
+        [ShowInInspector] private bool _isReadyToMove, _isReadyToPlay;
         [ShowInInspector] private float _xValue;
 
         private float2 _clampValues;
@@ -44,7 +41,7 @@ namespace Runtime.Controllers.Player
                 return;
             }
 
-            if (!_isReadyToMove)
+            if (_isReadyToMove)
             {
                 MovePlayer();
             }
@@ -56,39 +53,39 @@ namespace Runtime.Controllers.Player
 
         private void StopPlayer()
         {
-            rigidboy.velocity = Vector3.zero;
-            rigidboy.angularVelocity = Vector3.zero;
+            rigidbody.velocity = Vector3.zero;
+            rigidbody.angularVelocity = Vector3.zero;
         }
 
         private void StopPlayerHorizontally()
         {
-            rigidboy.velocity = new Vector3(0,rigidboy.velocity.y,_data.ForwardSpeed);
-            rigidboy.angularVelocity = Vector3.zero;
+            rigidbody.velocity = new Vector3(0, rigidbody.velocity.y, _data.ForwardSpeed);
+            rigidbody.angularVelocity = Vector3.zero;
         }
 
         private void MovePlayer()
         {
-            var velocity = rigidboy.velocity;
+            var velocity = rigidbody.velocity;
             velocity = new Vector3(_xValue * _data.SidewaySpeed, velocity.y, _data.ForwardSpeed);
-            rigidboy.velocity = velocity;
-            var position1 = rigidboy.position;
+            rigidbody.velocity = velocity;
+            var position1 = rigidbody.position;
             Vector3 position;
             position = new Vector3(Mathf.Clamp(position1.x, _clampValues.x, _clampValues.y),
-                (position = rigidboy.position).y, position.z);
-            rigidboy.position = position;
+                (position = rigidbody.position).y, position.z);
+            rigidbody.position = position;
         }
 
-        internal void IsReadyToPlay(bool condintion)
+        internal void IsReadyToPlay(bool condition)
         {
-            _isReadyToPlay = condintion;
+            _isReadyToPlay = condition;
         }
 
-        internal void IsReadyToMove(bool condintion)
+        internal void IsReadyToMove(bool condition)
         {
-            _isReadyToMove = condintion;
+            _isReadyToMove = condition;
         }
 
-        internal void UpdateParams(HorizontalInputParams inputParams)
+        internal void UpdateInputParams(HorizontalInputParams inputParams)
         {
             _xValue = inputParams.HorizontalValue;
             _clampValues = inputParams.ClampValues;
@@ -99,11 +96,6 @@ namespace Runtime.Controllers.Player
             StopPlayer();
             _isReadyToMove = false;
             _isReadyToPlay = false;
-        }
-
-        public void UpdateInputParams(HorizontalInputParams inputParams)
-        {
-            //.
         }
     }
 }

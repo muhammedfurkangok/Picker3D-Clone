@@ -1,21 +1,18 @@
-using System;
 using Cinemachine;
-using JetBrains.Annotations;
-using Runtime.Controllers.UI;
 using Runtime.Signals;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Runtime.Managers
 {
-    public class CameraManger : MonoBehaviour
+    public class CameraManager : MonoBehaviour
     {
-        #region Self Veriables
+        #region Self Variables
 
-        #region Serialized Veriables
+        #region Serialized Variables
 
-        [SerializeField] [CanBeNull] private CinemachineVirtualCamera virtualCamera;
-        
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
+
         #endregion
 
         #region Private Variables
@@ -47,16 +44,16 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onReset += OnReset;
         }
 
+        private void OnSetCameraTarget()
+        {
+            var player = FindObjectOfType<PlayerManager>().transform;
+            //virtualCamera.LookAt = player;
+            virtualCamera.Follow = player;
+        }
+
         private void OnReset()
         {
             transform.position = _firstPosition;
-        }
-
-        private void OnSetCameraTarget()
-        {
-            /*var player = FindObjectOfType<PlayerManager>().transform;
-            virtualCamera.Follow = player;
-            virtualCamera.LookAt = player;*/
         }
 
         private void UnSubscribeEvents()
@@ -67,7 +64,7 @@ namespace Runtime.Managers
 
         private void OnDisable()
         {
-            UnSubscribeEvents();;
+            UnSubscribeEvents();
         }
     }
 }

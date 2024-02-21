@@ -39,13 +39,14 @@ namespace Runtime.Controllers.Player
                 //Stage Area Kontrol Süresi
             }
 
+          
             if (other.CompareTag(_finish))
             {
                 CoreGameSignals.Instance.onFinishAreaEntered?.Invoke();
                 InputSignals.Instance.onDisableInput?.Invoke();
-                CoreGameSignals.Instance.onLevelSuccesful?.Invoke();
                 return;
             }
+
 
             if (other.CompareTag(_miniGame))
             {

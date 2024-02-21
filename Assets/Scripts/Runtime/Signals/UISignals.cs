@@ -23,7 +23,7 @@ namespace Runtime.Controllers.UI
         #endregion
 
         public UnityAction<byte> onSetStageColor = delegate { };
-        public UnityAction<byte> onSetNewLevelValue = delegate { };
+        public UnityAction<byte> onSetLevelValue = delegate { };
         public UnityAction onPlay = delegate { };
     
     }

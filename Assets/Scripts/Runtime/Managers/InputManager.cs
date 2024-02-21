@@ -16,15 +16,11 @@ namespace Runtime.Managers
         #region Private Veriables
 
         private InputData _data;
-        private bool _isAvailableForTouch,  _isFirstTimeTouchTaken, _isTouching;
+        private bool _isAvailableForTouch, _isFirstTimeTouchTaken, _isTouching;
 
         private float _currentVelocity;
         private float3 _moveVector;
         private Vector2? _mousePosition;
-        
-
-
-
 
         #endregion
 
@@ -39,7 +35,7 @@ namespace Runtime.Managers
         {
             return Resources.Load<CD_Input>("Data/CD_Input").Data;
         }
-#region Observer Pattern
+
         private void OnEnable()
         {
             SubscribeEvents();
@@ -52,43 +48,38 @@ namespace Runtime.Managers
             InputSignals.Instance.onDisableInput += OnDisableInput;
             //InputSignals.Instance.onEnableInput += OnInputStateChanged;
         }
-                    
-        /*
-        private void OnInputStateChanged(bool state )
+
+        /* private void OnInputStateChanged(bool state )
         {
             _isAvailableForTouch = state;
         }
-        ikinci bir çözümdür ve state machinelerle beraber çözülebilir ileri seviye bir çözümdür
-        */
+        ikinci bir çözümdür ve state machinelerle beraber çözülebilir ileri seviye bir çözümdür  */
         
-       
-
         private void OnReset()
         {
-           // _isFirstTimeTouchTaken = false; oyun ilk açıldıgında bir tanıtım için bir şey tutorialın bir kere gözükümesi yeterli her level öncesi göstermenin mantıgı yok 
-           
+            // _isFirstTimeTouchTaken = false; oyun ilk açıldıgında bir tanıtım için bir şey tutorialın bir kere gözükümesi yeterli her level öncesi göstermenin mantıgı yok 
             _isAvailableForTouch = false;
             _isTouching = false;
         }
 
+        private void OnDisableInput()
+        {
+            _isAvailableForTouch = false;
+        }
+
+        private void OnEnableInput()
+        {
+            _isAvailableForTouch = true;
+        }
+
         private void UnsubscribeEvents()
         {
-            
+
             CoreGameSignals.Instance.onReset -= OnReset;
             InputSignals.Instance.onEnableInput -= OnEnableInput;
             InputSignals.Instance.onDisableInput -= OnDisableInput;
         }
 
-        private void OnDisableInput()
-        {
-            _isAvailableForTouch = true;
-        }
-
-        private void OnEnableInput()
-        {
-
-            _isAvailableForTouch = true;
-        }
 
         private void OnDisable()
         {
@@ -97,9 +88,9 @@ namespace Runtime.Managers
             //bu sadece yatay düzlemde input alınan bir sistem her bir platformda(klavye,mouse vb) oluşturulabilmesi için input analiz sistemi yazılmalı
             //
         }
-        #endregion
 
-        private void Update()
+
+         private void Update()
         {
             if (!_isAvailableForTouch) return;
 
@@ -107,44 +98,37 @@ namespace Runtime.Managers
             {
                 _isTouching = false;
                 InputSignals.Instance.onInputReleased?.Invoke();
-                Debug.Log("Executed ------>>> OnInputTaken");
-                
             }
 
-            if (Input.GetMouseButtonDown(0) && IsPointerOverUIElement())
+            if (Input.GetMouseButtonDown(0) && !IsPointerOverUIElement())
             {
                 _isTouching = true;
                 InputSignals.Instance.onInputTaken?.Invoke();
-                Debug.Log("Executed ------>>> OnInputTaken");
-                if (_isFirstTimeTouchTaken)
+                if (!_isFirstTimeTouchTaken)
                 {
-                    _isTouching = true;
+                    _isFirstTimeTouchTaken = true;
                     InputSignals.Instance.onFirstTimeTouchTaken?.Invoke();
-                    Debug.Log("Executed ------>>> OnFirstTimeTouchTaken");
                 }
 
                 _mousePosition = Input.mousePosition;
-                if (Input.GetMouseButton(0) && !IsPointerOverUIElement())
+            }
+
+            if (Input.GetMouseButton(0) && !IsPointerOverUIElement())
+            {
+                if (_isTouching)
                 {
-                    if (_isTouching)
+                    if (_mousePosition != null)
                     {
-                        if (_mousePosition != null)
-                        {
-                            Vector2 mouseDeltaPos = (Vector2)Input.mousePosition - _mousePosition.Value;
-                            if (mouseDeltaPos.x > _data.HorizontalInputSpeed)
-                            {
-                                _moveVector.x = _data.HorizontalInputSpeed / 10f * mouseDeltaPos.x;
-                            }
-                            else if (mouseDeltaPos.x < _data.HorizontalInputSpeed)
-                            {
-                                _moveVector.x = -_data.HorizontalInputSpeed / 10f * mouseDeltaPos.x;
-                            }
-                            else
-                            {
-                                _moveVector.x = Mathf.SmoothDamp(-_moveVector.x, 0f, ref _currentVelocity,
-                                    _data.ClampSpeed); //???? yavaş yavaş durmadan bahsediyor sanırım
-                            }
-                        }
+                        Vector2 mouseDeltaPos = (Vector2)Input.mousePosition - _mousePosition.Value;
+                        if (mouseDeltaPos.x > _data.HorizontalInputSpeed)
+                            _moveVector.x = _data.HorizontalInputSpeed / 10f * mouseDeltaPos.x;
+                        else if (mouseDeltaPos.x < -_data.HorizontalInputSpeed)
+                            _moveVector.x = -_data.HorizontalInputSpeed / 10f * -mouseDeltaPos.x;
+                        else
+                            _moveVector.x = Mathf.SmoothDamp(_moveVector.x, 0f, ref _currentVelocity,
+                                _data.ClampSpeed);
+
+                        _moveVector.x = mouseDeltaPos.x;
 
                         _mousePosition = Input.mousePosition;
 
@@ -160,7 +144,7 @@ namespace Runtime.Managers
 
         private bool IsPointerOverUIElement()
         {
-            //????????
+            //??
             var eventData = new PointerEventData(EventSystem.current)
             {
                 position = Input.mousePosition

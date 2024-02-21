@@ -1,7 +1,10 @@
 using Runtime.Commands;
+using Runtime.Commands.Level;
 using Runtime.Data.UnityObjects;
 using Runtime.Data.ValueObjects;
+using Runtime.Enums;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Runtime.Managers
@@ -60,6 +63,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onRestartLevel += OnRestartLevel;
             
         }
+         [Button]
         private void OnNextLevel()
         {
             _currentLevel++;
@@ -67,7 +71,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onReset?.Invoke();
             CoreGameSignals.Instance.onLevelInitialize?.Invoke((byte)(_currentLevel % totalLevelCount));
         }
-
+        [Button]
         private void OnRestartLevel()
         {
             CoreGameSignals.Instance.onClearActiveLevel?.Invoke();
@@ -76,7 +80,7 @@ namespace Runtime.Managers
         }
         private byte OnGetLevelValue()
         {
-            return (byte) _currentLevel;
+            return (byte)((byte)_currentLevel % totalLevelCount);
 
         }
 
@@ -100,9 +104,7 @@ namespace Runtime.Managers
         private void Start()
         {
             CoreGameSignals.Instance.onLevelInitialize?.Invoke((byte)(_currentLevel % totalLevelCount));
-            //ui singals olacak
+            CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Start, 1);
         }
-
-    
     }
 }
