@@ -24,9 +24,9 @@ namespace Runtime.Commands.Player
             var transform1 = _manager.transform;
             var position1 = transform1.position;
             var forcePos = new Vector3(position1.x, position1.y - 1f, position1.z + .9f);
-
+            //totalde değdigim collactableları hesaplama
             var collider = Physics.OverlapSphere(forcePos, 1.7f);
-
+            //tagı collactable olanları bul ve liste olarak döndür
             var collectableColliderList = collider.Where(col => col.CompareTag(_collectable)).ToList();
 
             foreach (var col in collectableColliderList)

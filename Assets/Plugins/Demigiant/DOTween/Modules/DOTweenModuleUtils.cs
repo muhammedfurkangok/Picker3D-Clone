@@ -162,11 +162,6 @@ namespace DG.Tweening
             }
 
             #endregion
-
-            public static object OverlapSphere(System.Numerics.Vector3 forcePos, float f)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }
