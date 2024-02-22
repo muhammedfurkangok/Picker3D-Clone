@@ -11,8 +11,7 @@ Oyunu yaparken kullandığım ve pekişterdiğim başlıklar :
 -Factory Pattern
 -Actor Pattern
 -Scriptable Objeects
-Singals
--Unity Event Systems
+-Signals:Unity Events,Funcs,Actions...
 -Particle Systems
 -URP
 -Dotween
