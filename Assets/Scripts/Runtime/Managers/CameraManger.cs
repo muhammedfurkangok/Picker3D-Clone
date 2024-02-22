@@ -26,16 +26,12 @@ namespace Runtime.Managers
         private void Start()
         {
             Init();
+            SubscribeEvents();
         }
 
         private void Init()
         {
             _firstPosition = transform.position;
-        }
-
-        private void OnEnable()
-        {
-            SubscribeEvents();
         }
 
         private void SubscribeEvents()

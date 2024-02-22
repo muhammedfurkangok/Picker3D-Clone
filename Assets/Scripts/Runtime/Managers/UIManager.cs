@@ -7,7 +7,7 @@ namespace Runtime.Managers
 {
     public class UIManager : MonoBehaviour
     {
-        private void OnEnable()
+        private void Start()
         {
             SubscribeEvents();
         }
