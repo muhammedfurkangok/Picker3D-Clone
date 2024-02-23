@@ -5,15 +5,27 @@ Klonlamaya Çalışılan Oyun:https://www.youtube.com/watch?v=ppwSQ8gn6J8
 Oyunu yaparken kullandığım ve pekişterdiğim başlıklar :
 
 -Solid Prensipleri
+
 -Singleton Pattern
+
 -Observer Pattern
+
 -Strategy Pattern
+
 -Factory Pattern
+
 -Actor Pattern
+
 -Scriptable Objeects
+
 -Signals:Unity Events,Funcs,Actions...
+
 -Particle Systems
+
 -URP
+
 -Dotween
+
 -Cinemachine
+
 -Odin
