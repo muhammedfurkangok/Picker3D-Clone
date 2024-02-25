@@ -73,15 +73,7 @@ namespace Runtime.Controllers.Player
             }
         }
 
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.yellow;
-            var transform1 = manager.transform;
-            var position1 = transform1.position;
-            
-            Gizmos.DrawSphere(new Vector3(position1.x + 1f,position1.y +1f,position1.z +1),1.35f);
-            
-        }
+      
 
         public void OnReset()
         {

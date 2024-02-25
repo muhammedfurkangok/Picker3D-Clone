@@ -36,7 +36,7 @@ namespace Runtime.Managers
             return Resources.Load<CD_Input>("Data/CD_Input").Data;
         }
 
-        private void OnEnable()
+        private void Start()
         {
             SubscribeEvents();
         }

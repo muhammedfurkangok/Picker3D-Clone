@@ -90,6 +90,7 @@ namespace Runtime.Managers
             movementController.IsReadyToPlay(true);
             meshController.ScaleUpPlayer();
             meshController.ShowUpText();
+			meshController.PlayConfetti(); 
         }
 
         private void OnFinishAreaEntered()
