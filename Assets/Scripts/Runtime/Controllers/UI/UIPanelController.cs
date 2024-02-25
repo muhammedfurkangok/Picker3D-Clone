@@ -18,7 +18,7 @@ namespace Runtime.Controllers.UI
 
         #endregion
 
-        private void Start()
+        private void OnEnable()
         {
             SubscribeEvents();
         }
