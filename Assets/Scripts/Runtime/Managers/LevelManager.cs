@@ -49,11 +49,6 @@ namespace Runtime.Managers
             return Resources.Load<CD_Level>("Data/CD_Level").Levels[_currentLevel];
         }
 
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onLevelInitialize += _levelLoaderCommand.Execute;
@@ -103,6 +98,7 @@ namespace Runtime.Managers
 
         private void Start()
         {
+            SubscribeEvents();
             CoreGameSignals.Instance.onLevelInitialize?.Invoke((byte)(_currentLevel % totalLevelCount));
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Start, 1);
         }
