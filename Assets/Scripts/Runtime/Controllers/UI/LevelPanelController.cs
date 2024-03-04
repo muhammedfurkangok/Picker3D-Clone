@@ -38,7 +38,7 @@ namespace Runtime.Controllers.UI
         [ Button("SetStageColour")]
         private void OnSetStageColor(byte stageValue)
         {
-            stageImages[stageValue].DOColor(Color.yellow, 0.5f);
+            stageImages[stageValue].DOColor(new Color(0.9960785f, 0.4196079f, 0.07843138f), 0.5f);
         }
 
         private void OnSetNewLevelValue(byte levelValue)
